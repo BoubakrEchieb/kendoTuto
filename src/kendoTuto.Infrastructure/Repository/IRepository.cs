@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Paie01.Infrastructure.Repository
+namespace KendoTuto.Infrastructure.Repository
 {
     public interface IRepository<T> : IDisposable where T : class
     {

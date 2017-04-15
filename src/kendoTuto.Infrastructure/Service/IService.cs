@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Paie01.Infrastructure.Service
+namespace KendoTuto.Infrastructure.Service
 {
     public interface IService<T>  where T : class
     {

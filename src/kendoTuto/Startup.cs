@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Serialization;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
+using kendoTuto.Domain.Entities;
 
 namespace kendoTuto
 {
@@ -37,7 +39,7 @@ namespace kendoTuto
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry(Configuration);
-
+            services.AddDbContext<AppDbContext>(c => c.UseSqlServer(Configuration["DbConnection:ConnectionString"]));
             services.AddMvc().AddJsonOptions(options =>
             {
                 //handle loops correctly

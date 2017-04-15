@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Paie01.Infrastructure.Repository
+namespace KendoTuto.Infrastructure.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {

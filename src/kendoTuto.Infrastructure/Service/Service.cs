@@ -1,11 +1,11 @@
-﻿using Paie01.Infrastructure.UnitOfW;
+﻿using KendoTuto.Infrastructure.UnitOfW;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Paie01.Infrastructure.Service
+namespace KendoTuto.Infrastructure.Service
 {
     public class Service<T> : IService<T> where T : class
     {

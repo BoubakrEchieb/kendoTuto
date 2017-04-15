@@ -47,7 +47,10 @@ var App;
             var _this = this;
             _this.mainGridDataSource = new kendo.data.DataSource({
                 transport: {
-                    read: {},
+                    read: {
+                        url: "api/Employee/GetAll",
+                        type: "json"
+                    },
                     create: {},
                     update: {},
                     destroy: {}

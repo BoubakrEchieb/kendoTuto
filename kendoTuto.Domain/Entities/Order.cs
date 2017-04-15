@@ -11,5 +11,6 @@ namespace kendoTuto.Domain.Entities
         public string ShipCountry { get; set; }
         public string ShipAdresse { get; set; }
         public string ShipName { get; set; }
+        public Employee Employee { get; set; }
     }
 }

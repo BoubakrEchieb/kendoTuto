@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Paie01.Infrastructure.Repository;
+using KendoTuto.Infrastructure.Repository;
 
-namespace Paie01.Infrastructure.UnitOfW
+namespace KendoTuto.Infrastructure.UnitOfW
 {
     public class UnitOfWork : IUnitOfWork
     {

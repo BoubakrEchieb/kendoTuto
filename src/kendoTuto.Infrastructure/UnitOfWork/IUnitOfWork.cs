@@ -1,10 +1,10 @@
-﻿using Paie01.Infrastructure.Repository;
+﻿using KendoTuto.Infrastructure.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Paie01.Infrastructure.UnitOfW
+namespace KendoTuto.Infrastructure.UnitOfW
 {
     public interface IUnitOfWork : IDisposable
     {
