@@ -1,6 +1,5 @@
-﻿using kendoTuto.App.Service;
-using kendoTuto.Domain.Entities;
-using KendoTuto.Infrastructure.UnitOfW;
+﻿using kendoTuto.Domain.Entities;
+using KendoTuto.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,21 +12,29 @@ namespace kendoTuto.Controllers
     public class EmployeeController : Controller
     {
         private AppDbContext _dbContext;
-        private EmployeeService _employeeService;
+        private Service<Employee> _employeeService;
         private UnitOfWork _unitOfWork;
         public EmployeeController(AppDbContext dbContext)
         {
             _dbContext = dbContext;
             _unitOfWork = new UnitOfWork(_dbContext);
-            _employeeService = new EmployeeService(_unitOfWork);
-            _employeeService.Add(new Employee() {FirstName="Ammar",LastName="Ali",City="LLD",Country="JFk" });
+            _employeeService = new Service<Employee>(_unitOfWork);
+            _employeeService = _employeeService;
+
+            //Employee em = new Employee();
+            //em.FirstName = "Ammar";
+            //em.LastName = "Ali";
+            //em.City = "LLD";
+            //em.Country = "JFk";
+            //_dbContext.Employees.Add(em);
+            //_dbContext.SaveChanges();
         }
         [HttpGet("GetAll")]
-        public IEnumerable<Employee> GetAll()
+        public IQueryable<Employee> GetAll()
         {
             var result = _employeeService.GetAll();
             return result;
         }
-           
+
     }
 }

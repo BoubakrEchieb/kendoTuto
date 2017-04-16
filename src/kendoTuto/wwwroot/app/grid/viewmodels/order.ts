@@ -1,9 +1,10 @@
 ﻿module App {
     "use strict";
     export class Order {
-        OrderId: number;
-        ShipCountry: string;
-        ShipAdress: string;
-        ShipName: string;
+        orderId: number;
+        shipCountry: string;
+        shipAdress: string;
+        shipName: string;
+        employeeId: number;
     }
 }

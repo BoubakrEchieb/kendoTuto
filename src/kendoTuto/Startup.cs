@@ -39,7 +39,6 @@ namespace kendoTuto
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry(Configuration);
-            services.AddDbContext<AppDbContext>(c => c.UseSqlServer(Configuration["DbConnection:ConnectionString"]));
             services.AddMvc().AddJsonOptions(options =>
             {
                 //handle loops correctly
@@ -53,6 +52,7 @@ namespace kendoTuto
                 //options.SerializerSettings.PreserveReferencesHandling =
                 //    PreserveReferencesHandling.Objects;
             });
+            services.AddDbContext<AppDbContext>(c => c.UseSqlServer(Configuration["DbConnection:ConnectionString"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

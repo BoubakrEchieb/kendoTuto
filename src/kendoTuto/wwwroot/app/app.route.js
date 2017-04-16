@@ -4,7 +4,7 @@ var App;
     function routes($routeProvider) {
         $routeProvider
             .when("/grid", {
-            templateUrl: "app/grid/grid.html",
+            templateUrl: "app/grid/views/grid.html",
             controller: "GridCtrl",
             controllerAs: "vm"
         })

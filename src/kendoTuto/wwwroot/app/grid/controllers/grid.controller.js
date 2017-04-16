@@ -4,6 +4,8 @@ var App;
     var GridCtrl = (function () {
         function GridCtrl($service) {
             this.$service = $service;
+            this.detailObservableData = new kendo.data.ObservableArray([]);
+            this.mainObservableData = new kendo.data.ObservableArray([]);
             this.initMainGridDataSource();
             this.initMainGridOptions();
         }
@@ -19,25 +21,30 @@ var App;
                 },
                 columns: [
                     {
-                        field: "FirstName",
+                        field: "employeeId",
+                        title: "#ID",
+                        width: "120px"
+                    },
+                    {
+                        field: "firstName",
                         title: "First Name",
                         width: "120px"
                     },
                     {
-                        field: "LastName",
+                        field: "lastName",
                         title: "Last Name",
                         width: "120px"
                     },
                     {
-                        field: "Country",
+                        field: "country",
                         width: "120px"
                     },
                     {
-                        field: "City",
+                        field: "city",
                         width: "120px"
                     },
                     {
-                        field: "Title"
+                        field: "title"
                     }
                 ]
             };
@@ -49,7 +56,8 @@ var App;
                 transport: {
                     read: {
                         url: "api/Employee/GetAll",
-                        type: "json"
+                        type: "GET",
+                        dataType: "json"
                     },
                     create: {},
                     update: {},
@@ -62,15 +70,28 @@ var App;
         };
         GridCtrl.prototype.initDetailGridOptions = function (dataItem) {
             var _this = this;
+            var employeeId = dataItem.employeeId + "";
+            console.log(employeeId);
             _this.detailGridDataSource = new kendo.data.DataSource({
                 transport: {
-                    read: {}
+                    read: function (e) {
+                        var url = "api/Order/GetAll/" + employeeId;
+                        console.log(url);
+                        _this.$service.read(url)
+                            .then(function (result) {
+                            _this.detailDataTable = result.data;
+                            _this.detailObservableData.push.apply(_this.detailObservableData, _this.detailDataTable);
+                            e.success(_this.detailObservableData);
+                        }, function (error) {
+                            alert("Error");
+                        });
+                    }
                 },
                 serverPaging: true,
                 serverSorting: true,
                 serverFiltering: true,
                 pageSize: 5,
-                filter: { field: "EmployeeId", operator: "eq", value: dataItem.EmployeeId }
+                filter: { field: "employee.employeeId", operator: "eq", value: dataItem.employeeId }
             });
             _this.detailGridOptions = {
                 dataSource: _this.detailGridDataSource,
@@ -78,15 +99,19 @@ var App;
                 sortable: true,
                 pageable: true,
                 columns: [
-                    { field: "OrderId", title: "ID", width: "56px" },
-                    { field: "ShipCountry", title: "Ship Country", width: "110px" },
-                    { field: "ShipAddress", title: "Ship Address" },
-                    { field: "ShipName", title: "Ship Name", width: "190px" }
+                    { field: "orderId", title: "ID", width: "56px" },
+                    { field: "shipCountry", title: "Ship Country", width: "110px" },
+                    { field: "shipAddress", title: "Ship Address" },
+                    { field: "shipName", title: "Ship Name", width: "190px" },
+                    { field: "employee.employeeId", title: "EmployeeID", width: "190px" }
                 ]
             };
+            return _this.detailGridOptions;
         };
         GridCtrl.$inject = ["GridService"];
         return GridCtrl;
     }());
     App.GridCtrl = GridCtrl;
+    angular.module("app")
+        .controller("GridCtrl", GridCtrl);
 })(App || (App = {}));

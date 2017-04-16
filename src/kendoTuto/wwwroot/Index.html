@@ -8,22 +8,25 @@
     <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.blueopal.min.css" />
 </head>
 <body ng-app="app">
-    <header class="navbar navbar-nav navbar-default navbar-fixed-top">
-        <div class="navbar-header">
-            <a ng-href="#/home" class="navbar-brand">KendoUi</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <nav class="navbar-logo">
-                <ul class="nav navbar-nav">
-                    <li><a ng-href="#/grid"><span class="glyphicon glyphicon-home"></span>Grid</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
     <div class="container">
+       <menu class="row" style="margin-bottom:50px;">
+           <header class="navbar navbar-nav navbar-default navbar-fixed-top">
+               <div class="navbar-header">
+                   <a ng-href="#/home" class="navbar-brand">KendoUi</a>
+               </div>
+               <div class="navbar-collapse collapse">
+                   <nav class="navbar-logo">
+                       <ul class="nav navbar-nav">
+                           <li><a ng-href="#/grid"><span class="glyphicon glyphicon-home"></span>Grid</a></li>
+                       </ul>
+                   </nav>
+               </div>
+           </header>
+       </menu>
         <div class="row" ng-view>
 
         </div>
+
     </div>
 
     <script src="lib/jquery/dist/jquery.js"></script>
@@ -31,6 +34,7 @@
     <script src="lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
     <script src="http://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
     <script src="app/app.js"></script>
     <script src="app/app.route.js"></script>
