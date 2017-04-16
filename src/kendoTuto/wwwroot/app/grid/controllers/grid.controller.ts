@@ -8,15 +8,12 @@
         mainObservableData: kendo.data.ObservableArray;
 
         detailGridOptions: kendo.ui.GridOptions;
-        detailGridDataSource: kendo.data.DataSource;
-        detailDataTable: any[];
-        detailObservableData: kendo.data.ObservableArray;
+        detailGridDataSource: kendo.data.DataSource;        
 
         $service: IGridService;
         static $inject = ["GridService"];
         constructor($service: IGridService) {
             this.$service = $service;
-            this.detailObservableData = new kendo.data.ObservableArray([]);
             this.mainObservableData = new kendo.data.ObservableArray([]);
             this.initMainGridDataSource();
             this.initMainGridOptions();
@@ -82,18 +79,22 @@
         }
         public initDetailGridOptions(dataItem: Employee) {
             let _this = this;
+            let detailDataTable: any[];
+            let detailObservableData: kendo.data.ObservableArray;
+            detailObservableData = new kendo.data.ObservableArray([]);
             let employeeId = dataItem.employeeId + "";
             console.log(employeeId);
             _this.detailGridDataSource = new kendo.data.DataSource({
                 transport: {
                     read: function (e) {
+                        console.log(e.data);
                         let url = "api/Order/GetAll/" + employeeId;
                         console.log(url);
                         _this.$service.read(url)
                             .then((result: any) => {
-                                _this.detailDataTable = result.data;
-                                _this.detailObservableData.push.apply(_this.detailObservableData, _this.detailDataTable);
-                                e.success(_this.detailObservableData);
+                                detailDataTable = result.data;
+                                detailObservableData.push.apply(detailObservableData, detailDataTable);
+                                e.success(detailObservableData);
                             }, (error: any): any => {
                                 alert("Error");
                             });

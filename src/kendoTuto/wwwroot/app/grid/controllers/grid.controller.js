@@ -4,7 +4,6 @@ var App;
     var GridCtrl = (function () {
         function GridCtrl($service) {
             this.$service = $service;
-            this.detailObservableData = new kendo.data.ObservableArray([]);
             this.mainObservableData = new kendo.data.ObservableArray([]);
             this.initMainGridDataSource();
             this.initMainGridOptions();
@@ -70,18 +69,22 @@ var App;
         };
         GridCtrl.prototype.initDetailGridOptions = function (dataItem) {
             var _this = this;
+            var detailDataTable;
+            var detailObservableData;
+            detailObservableData = new kendo.data.ObservableArray([]);
             var employeeId = dataItem.employeeId + "";
             console.log(employeeId);
             _this.detailGridDataSource = new kendo.data.DataSource({
                 transport: {
                     read: function (e) {
+                        console.log(e.data);
                         var url = "api/Order/GetAll/" + employeeId;
                         console.log(url);
                         _this.$service.read(url)
                             .then(function (result) {
-                            _this.detailDataTable = result.data;
-                            _this.detailObservableData.push.apply(_this.detailObservableData, _this.detailDataTable);
-                            e.success(_this.detailObservableData);
+                            detailDataTable = result.data;
+                            detailObservableData.push.apply(detailObservableData, detailDataTable);
+                            e.success(detailObservableData);
                         }, function (error) {
                             alert("Error");
                         });
