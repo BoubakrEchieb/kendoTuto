@@ -8,7 +8,7 @@ namespace KendoTuto.Infrastructure
 {
     public interface IService<T>  where T : class
     {
-        void Add(T entity);
+        T Add(T entity);
         void Delete(T entity);
         void Update(T entity);
         IQueryable<T> GetAll();

@@ -94,7 +94,6 @@ var App;
                 serverSorting: true,
                 serverFiltering: true,
                 pageSize: 5,
-                filter: { field: "employee.employeeId", operator: "eq", value: dataItem.employeeId }
             });
             _this.detailGridOptions = {
                 dataSource: _this.detailGridDataSource,

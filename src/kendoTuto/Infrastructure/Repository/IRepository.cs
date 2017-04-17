@@ -11,7 +11,7 @@ namespace KendoTuto.Infrastructure
         IQueryable<T> Get(Expression<Func<T, bool>> filter = null);
         IQueryable<T> GetAll();
         T Find(Expression<Func<T, bool>> filter);
-        void Add(T entity);
+        T Add(T entity);
         void Remove(T entity);
         void Update(T entity);
     }

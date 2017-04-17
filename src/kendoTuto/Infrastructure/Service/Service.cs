@@ -14,10 +14,11 @@ namespace KendoTuto.Infrastructure
         {
             _unitOfWork = unitOfWork;
         }
-        public virtual void Add(T entity)
+        public virtual T Add(T entity)
         {
-            _unitOfWork.Repository<T>().Add(entity);
+            var result = _unitOfWork.Repository<T>().Add(entity);
             _unitOfWork.Commit();
+            return result;
         }
 
         public virtual void Delete(T entity)

@@ -17,9 +17,10 @@ namespace KendoTuto.Infrastructure
         }
 
         // Implementing IRepository
-        public virtual void Add(T entity)
+        public virtual T Add(T entity)
         {
-            _context.Set<T>().Add(entity);
+            var result = _context.Set<T>().Add(entity).Entity;
+            return result;
         }
         public virtual T Find(Expression<Func<T, bool>> filter)
         {

@@ -1,5 +1,4 @@
-﻿
-using kendoTuto.App.Service;
+﻿using kendoTuto.App.Service;
 using kendoTuto.App.UOfW;
 using kendoTuto.App.ViewModels;
 using kendoTuto.Domain.Entities;

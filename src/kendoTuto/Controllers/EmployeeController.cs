@@ -1,4 +1,5 @@
 ﻿using kendoTuto.Domain.Entities;
+using kendoTuto.ViewModels;
 using KendoTuto.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,7 +20,6 @@ namespace kendoTuto.Controllers
             _dbContext = dbContext;
             _unitOfWork = new UnitOfWork(_dbContext);
             _employeeService = new Service<Employee>(_unitOfWork);
-            _employeeService = _employeeService;
 
             //Employee em = new Employee();
             //em.FirstName = "Ammar";
@@ -35,6 +35,26 @@ namespace kendoTuto.Controllers
             var result = _employeeService.GetAll();
             return result;
         }
-
+        [HttpPost("Create")]
+        public IActionResult Create([FromBody]Employee employee)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new JsonResult(new { success = false });
+            }
+            var result = _employeeService.Add(employee);
+            return new JsonResult(new { success = true, employee = result });
+        }
+        [HttpDelete("Remove/{id}")]
+        public IActionResult Remove(int Id)
+        {
+            Employee empoyeeToDelete = _employeeService.Get(em => em.EmployeeId == Id);
+            if(empoyeeToDelete == null)
+            {
+                return new JsonResult(new { success = false });
+            }
+            _employeeService.Delete(empoyeeToDelete);
+            return new JsonResult(new { success = false });
+        }
     }
 }
