@@ -4,7 +4,7 @@
         EmployeeId: number;
         FirstName: string;
         LastName: string;
-        Coutry: string;
+        Country: string;
         City: string;
         Title: string;
     }

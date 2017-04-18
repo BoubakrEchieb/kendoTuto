@@ -41,6 +41,7 @@ namespace KendoTuto.Infrastructure
         public virtual void Update(T entity)
         {
              _unitOfWork.Repository<T>().Update(entity);
+            _unitOfWork.Commit();
         }
     }
 }

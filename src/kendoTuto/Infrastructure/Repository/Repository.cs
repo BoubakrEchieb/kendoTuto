@@ -47,7 +47,7 @@ namespace KendoTuto.Infrastructure
 
         public virtual void Update(T entity)
         {
-            _context.Set<T>().Update(entity);
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
         public virtual IQueryable<T> GetAll()

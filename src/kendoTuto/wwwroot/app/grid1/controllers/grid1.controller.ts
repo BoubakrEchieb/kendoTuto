@@ -13,6 +13,10 @@
             this.initGridDataSource();
             this.initGridOptions();
         }
+        // refrech grid
+        refrechGrid() {
+            $("#grid").data("kendoGrid").dataSource.read();
+        }
         // initialize gridDataSource
         initGridDataSource () {
             let _this = this;
@@ -39,7 +43,7 @@
                         Em.FirstName = newItem.firstName;
                         Em.LastName = newItem.lastName;
                         Em.City = newItem.city;
-                        Em.Coutry = newItem.country;
+                        Em.Country = newItem.country;
                         Em.Title = newItem.title;
                         _this.$service.add("api/Employee/Create", Em)
                             .then((result: any) => {
@@ -50,7 +54,7 @@
                                 }
                             }, (error: any) => {
                                 console.log("error");
-                                $("#grid").data("kendoGrid").dataSource.read();
+                                _this.refrechGrid();
                                 e.error(e.data);
                             });
                     },
@@ -64,11 +68,32 @@
                                 }
                             }, (error: any) => {
                                 console.log("error");
-                                $("#grid").data("kendoGrid").dataSource.read();
+                                _this.refrechGrid();
                                 e.error(e.data);
                             });
                     },
-                    update: {},
+                    update: function (e) {
+                        console.log("update");
+                        let url = "api/Employee/Update"
+                        let Item = e.data;
+                        console.log(e.data);
+                        let Em = new Employee();
+                        Em.FirstName = Item.firstName;
+                        Em.LastName = Item.lastName;
+                        Em.City = Item.city;
+                        Em.Country = Item.country;
+                        Em.Title = Item.title;
+                        _this.$service.update(url, Item)
+                            .then((result: any) => {
+                                if (JSON.parse(angular.toJson(result.data))["success"] === true) {
+                                    e.success(e.data);
+                                }
+                            }, (error: any) => {
+                                console.log("error");
+                                _this.refrechGrid();
+                                e.error(e.data);
+                            });
+                    },
                     parameterMap: function (data, operation) {
                         if (operation != "read") {
                             console.log("here");
@@ -94,19 +119,34 @@
                     }
                 },
                 pageSize: 5,
-                serverPaging: true,
-                serverSorting: true
+                serverFiltering: true,
+                serverSorting: true,
             });
         }
         // initialize gridOptions
         initGridOptions() {
             let _this = this;
             _this.gridOptions = {
+                toolbar: ["create","pdf"],
+                pdf: {
+                    allPages: true,
+                    avoidLinks: true,
+                    paperSize: "A4",
+                    margin: { top: "2cm", left: "1cm", right: "1cm", bottom: "1cm" },
+                    landscape: true,
+                    repeatHeaders: true,
+                    template: $("#page-template").html(),
+                    scale: 0.8,
+                    date: new Date()
+                },
                 dataSource: _this.gridDataSource,
                 editable: "popup",
-                toolbar: ["create"],
                 sortable: true,
-                pageable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
                 resizable: true,
                 columns: [
                     { field: "employeeId", title: "ID#", width: "80px" },

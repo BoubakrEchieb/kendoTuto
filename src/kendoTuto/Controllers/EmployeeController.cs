@@ -2,6 +2,7 @@
 using kendoTuto.ViewModels;
 using KendoTuto.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,13 @@ namespace kendoTuto.Controllers
                 return new JsonResult(new { success = false });
             }
             _employeeService.Delete(empoyeeToDelete);
-            return new JsonResult(new { success = false });
+            return new JsonResult(new { success = true });
+        }
+        [HttpPut("Update")]
+        public IActionResult Update([FromBody] Employee employee)
+        {
+            _employeeService.Update(employee);
+            return new JsonResult(new { success = true });
         }
     }
 }

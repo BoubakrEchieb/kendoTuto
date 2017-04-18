@@ -8,6 +8,10 @@ var App;
             this.initGridDataSource();
             this.initGridOptions();
         }
+        // refrech grid
+        Grid1Controller.prototype.refrechGrid = function () {
+            $("#grid").data("kendoGrid").dataSource.read();
+        };
         // initialize gridDataSource
         Grid1Controller.prototype.initGridDataSource = function () {
             var _this = this;
@@ -34,7 +38,7 @@ var App;
                         Em.FirstName = newItem.firstName;
                         Em.LastName = newItem.lastName;
                         Em.City = newItem.city;
-                        Em.Coutry = newItem.country;
+                        Em.Country = newItem.country;
                         Em.Title = newItem.title;
                         _this.$service.add("api/Employee/Create", Em)
                             .then(function (result) {
@@ -45,7 +49,7 @@ var App;
                             }
                         }, function (error) {
                             console.log("error");
-                            $("#grid").data("kendoGrid").dataSource.read();
+                            _this.refrechGrid();
                             e.error(e.data);
                         });
                     },
@@ -59,11 +63,32 @@ var App;
                             }
                         }, function (error) {
                             console.log("error");
-                            $("#grid").data("kendoGrid").dataSource.read();
+                            _this.refrechGrid();
                             e.error(e.data);
                         });
                     },
-                    update: {},
+                    update: function (e) {
+                        console.log("update");
+                        var url = "api/Employee/Update";
+                        var Item = e.data;
+                        console.log(e.data);
+                        var Em = new App.Employee();
+                        Em.FirstName = Item.firstName;
+                        Em.LastName = Item.lastName;
+                        Em.City = Item.city;
+                        Em.Country = Item.country;
+                        Em.Title = Item.title;
+                        _this.$service.update(url, Item)
+                            .then(function (result) {
+                            if (JSON.parse(angular.toJson(result.data))["success"] === true) {
+                                e.success(e.data);
+                            }
+                        }, function (error) {
+                            console.log("error");
+                            _this.refrechGrid();
+                            e.error(e.data);
+                        });
+                    },
                     parameterMap: function (data, operation) {
                         if (operation != "read") {
                             console.log("here");
@@ -89,19 +114,34 @@ var App;
                     }
                 },
                 pageSize: 5,
-                serverPaging: true,
-                serverSorting: true
+                serverFiltering: true,
+                serverSorting: true,
             });
         };
         // initialize gridOptions
         Grid1Controller.prototype.initGridOptions = function () {
             var _this = this;
             _this.gridOptions = {
+                toolbar: ["create", "pdf"],
+                pdf: {
+                    allPages: true,
+                    avoidLinks: true,
+                    paperSize: "A4",
+                    margin: { top: "2cm", left: "1cm", right: "1cm", bottom: "1cm" },
+                    landscape: true,
+                    repeatHeaders: true,
+                    template: $("#page-template").html(),
+                    scale: 0.8,
+                    date: new Date()
+                },
                 dataSource: _this.gridDataSource,
                 editable: "popup",
-                toolbar: ["create"],
                 sortable: true,
-                pageable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
                 resizable: true,
                 columns: [
                     { field: "employeeId", title: "ID#", width: "80px" },
